@@ -1,21 +1,35 @@
-#include"Book.h"
-using namespace std;
-Book::Book(string id, string title, string author, int qty,
-           string publisher, string isbn, int pages,string location)
-    : LibraryResource(id, title, author, qty),   // 调用基类构造
-      publisher(publisher), isbn(isbn), pages(pages),location(location) {
-      }
-      void Book::display() const {
-    cout << "========================================" << endl;
-    cout << "  类型：     " << getType() << endl;
-    cout << "  编号：     " << id << endl;
-    cout << "  书名：     " << title << endl;
-    cout << "  作者：     " << author << endl;
-    cout << "  出版社：   " << publisher << endl;
-    cout << "  ISBN：     " << isbn << endl;
-    cout << "  页数：     " << pages << " 页" << endl;
-    cout << "  馆藏位置： " <<location<<endl;
-    cout << "  总数量：   " << totalQty << endl;
-    cout << "  可借数量： " << availableQty << endl;
-    cout << "========================================" << endl;
-}
+// Book.h —— 一般图书（继承自 LibraryResource）
+#ifndef BOOK_H
+#define BOOK_H
+
+#include "LibraryResource.h"
+
+class Book : public LibraryResource {
+private:
+    string publisher;    // 出版社
+    string isbn;         // ISBN号
+    int    pages;        // 页数
+    string location;     // 馆藏位置（书架号）
+
+public:
+    Book(string id, string title, string author, int qty,
+         string publisher, string isbn, int pages, string location);
+
+    // 重写纯虚函数（多态）
+    void display() const override;
+    string getType() const override     { return "一般图书"; }
+    string getLocation() const override { return location; }
+
+    // Book 特有 getter + setter（修改资源信息用）
+    string getPublisher()   const { return publisher; }
+    string getIsbn()        const { return isbn; }
+    int    getPages()       const { return pages; }
+    string getBookLocation()const { return location; }
+
+    void setPublisher(string p)   { publisher = p; }
+    void setIsbn(string i)        { isbn = i; }
+    void setPages(int p)          { pages = p; }
+    void setBookLocation(string l){ location = l; }
+};
+
+#endif
